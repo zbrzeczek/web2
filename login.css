@@ -1,0 +1,30 @@
+#logmain {
+    text-align: center;
+    padding-top: 4%;
+}
+.login {
+    text-align: center;
+    size: 100px;
+    margin-top: 10vh;
+    padding-bottom: 15%;
+}
+input:focus {
+    border: 2px solid #555;
+  }
+input {
+   height: 4vh;
+    padding: 12px 15px;
+  }
+#wpis {
+    width: 20%;
+}
+  #loginbutton {
+      border: none;
+    box-sizing: content-box;
+    text-decoration: none;
+    margin-top: 3vh;
+    height: 20%;
+  }
+  #log {
+    font-size: 2vh;
+  }
