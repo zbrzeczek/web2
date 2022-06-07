@@ -4,9 +4,12 @@
 }
 .login {
     text-align: center;
-    size: 100px;
-    margin-top: 10vh;
+    position: relative;
     padding-bottom: 15%;
+    filter: blur(0px);
+}
+#lin {
+  top: 130px;
 }
 input:focus {
     border: 2px solid #555;
