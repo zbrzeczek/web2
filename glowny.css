@@ -82,13 +82,14 @@ body {
 #text {
   padding: 10px;
 }
+
+
 .glowny{
   position: relative;
   top: 650px;
   width: 100%;
   background-color: mintcream;
 }
-
 #pojedynczy{
   height: 70vh;
 }

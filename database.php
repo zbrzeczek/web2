@@ -5,8 +5,7 @@ $password = "";
 $databaseName = "wzb";
 $conn = new mysqli($hostName, $userName, $password, $databaseName);
 // Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+  die("Error connecting to database: " . mysqli_connect_error());
 }
-echo 'you have connected successfully';
 ?>

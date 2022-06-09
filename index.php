@@ -1,52 +1,43 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="glowny.css">
-        <script src="js.js"></script>
-        <title><?php include($title); ?></title>
-    </head>
-    <body>
-        <?php 
-            $page = $_GET['page']; 
+<?php require_once('database.php') ?>
 
-            if($page == null) {
-                $page = 'index'; // Set page to index, if not set
-            }
-            
-            switch ($page) {
-                case 'index':
-                    include('aktualnosci.php');
-                    $title = "aktualnosci";
-                    break;
+<?php $title = 'Aktualności'; 
+$page = 'aktualnosci';
+?>
+<!-- head -->
+<?php require_once('head.php'); ?>
 
-                case 'omnie':
-                    include('omnie.php');
-                    $title = "omnie";
-                    break;
+<title><?php echo $title; ?></title>
+</head>
 
-                case 'oferta':
-                    include('oferta.php');
-                    $title = "oferta";
-                    break;
+<!-- navbar -->
+<?php include('nav.php'); ?>
+<!-- img -->
+<?php include('img.php'); ?>
+<!-- main body -->
+<div class = "glowny">
+    <?php 
+        if ($page == 'aktualnosci'){
+            include('aktualnosci.php');
+        }
+        else if ($page == 'omnie'){
+            include('omnie.php');
+        }
+        else if ($page == 'oferta'){
+            include('oferta.php');
+        }
+        else if ($page == 'kalendarz'){
+            include('kalendarz.php');
+        }
+        else if ($page == 'login'){
+            include('login.php');
+        }
+        else if ($page == 'umow'){
+            include('umow.php');
+        }
+    ?>
+</div>
 
-                case 'kalendarz':
-                    include('kalendarz.php');
-                    $title = "kalendarz";
-                    break;
+<!-- footer -->
+<?php include('footer.php') ?>
 
-                case 'login':
-                    include('login.php');
-                    $title = "login";
-                    break;
-
-                case 'umow':
-                    include('umow.php');
-                    $title = "umow";
-                    break;
-            }
-        ?>
-        <div id="footer">
-            <?php echo "<p id='link'><a href='https://www.facebook.com/EwaPsalmisterWilk'>Footer</p>"; ?>
-        </div>
-    </body>
-</html>
+<?php include('database.php'); ?>
