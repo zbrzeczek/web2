@@ -3,9 +3,15 @@ $hostName = "localhost";
 $userName = "root";
 $password = "";
 $databaseName = "wzb";
-$conn = new mysqli($hostName, $userName, $password, $databaseName);
-// Check connection
-if (!$conn) {
-  die("Error connecting to database: " . mysqli_connect_error());
+
+try {
+  $conn = new mysqli($hostName, $userName, $password, $databaseName);
+  if ($conn->connect_errno!=0) {
+    throw new Exeption(mysqli_connect_errno());
+  }
+}
+catch(Exeption $er){
+  echo '<span style="color:red;">Błąd serwera</span>';
+  echo '<br>Informacja developerska: '.$er;
 }
 ?>

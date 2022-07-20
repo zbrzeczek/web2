@@ -1,10 +1,24 @@
-</body>
+<?php 
+
+session_start();
+
+require_once('database.php'); 
+
+?>
+
 <div class="nav">
     <h2 id='logo'>Skuteczna walka z bólem</h2>
-    <a href='#aktualnosci' id='base'><?php $page = 'aktualnosci'; ?>Aktualności</a>
-    <a href='#omnie' id='base'><?php $page = 'omnie'; ?>O mnie</a>
-    <a href='#oferta' id='base'><?php $page = 'oferta'; ?>Oferta</a>
-    <a href='#kalendarz' id='base'><?php $page = 'kalendarz'; ?>Kalendarz</a>
-    <a href='#login' id='login'><?php $page = 'login'; ?>Zaloguj</a>
-    <a href='#umow' id='login'><?php $page = 'umow'; ?>Umów wizytę</a>
+    <a href='index.php' id='base'>Aktualności</a>
+    <a href='omnie.php' id='base'>O mnie</a>
+    <a href='oferta.php' id='base'>Oferta</a>
+    <a href='kalendarz.php' id='base'>Kalendarz</a>
+    <?php
+        if($_SESSION['zalogowany'] == true) {
+            echo "<a href='afterlog.php' id='login'>Moje konto</a>";
+        }
+        else {
+            echo "<a href='login.php' id='login'>Zaloguj</a>";
+            echo "<a href='rejestracja.php' id='login'>Rejestracja</a>";
+        }
+    ?>
 </div>

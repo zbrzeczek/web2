@@ -140,3 +140,7 @@ input {
   width: 15vw;
   padding: 12px 15px;
 }
+.error{
+  color: red;
+  margin: 10px;
+}

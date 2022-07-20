@@ -2,8 +2,10 @@
 
 session_start();
 
-require_once('database.php'); 
-
+if (!isset($_SESSION['zalogowany'])){
+    header('Location: index.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +15,7 @@ require_once('database.php');
         <!-- Styling for public area -->
         <link rel="stylesheet" href="static/glowny.css">
         <meta charset="UTF-8">
-        <title>Aktualnosci</title>
+        <title>Konto</title>
 </head>
 <body>
 
@@ -29,12 +31,9 @@ require_once('database.php');
 <div class = "glowny">
     <div class="column" >
         <div class="leftcolumn">
-            <h1>Aktualności</h1>
-            <?php echo "<h2>liczba postów: ".$_SESSION['liczbapostow']."</h2>" ?>
-            <div id='post'>
-                <h2><?php echo $_SESSION['tytul'] ?></h2>
-                <p>sadsd</p>
-            </div>
+            <?php echo "<h2>Witaj ".$_SESSION['imie']." ".$_SESSION['nazwisko']."</h2>" ?>
+            <h2> asdasd </h2>
+            <?php echo "<a href='logout.php' style='color:black'>Wyloguj się</a>"?>
         </div>
         <div class="rightcolumn">
             <h2>Rok</h2>
