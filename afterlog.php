@@ -32,11 +32,11 @@ if (!isset($_SESSION['zalogowany'])){
     <div class="column" >
         <div class="leftcolumn">
             <?php echo "<h2>Witaj ".$_SESSION['imie']." ".$_SESSION['nazwisko']."</h2>" ?>
-            <h2> asdasd </h2>
+            <h2>Twoje wizyty</h2>
             <?php echo "<a href='logout.php' style='color:black'>Wyloguj się</a>"?>
         </div>
         <div class="rightcolumn">
-            <h2>Rok</h2>
+            <h2>Zaplanuj wizytę</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
         </div>
     </div>

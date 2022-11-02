@@ -144,3 +144,21 @@ input {
   color: red;
   margin: 10px;
 }
+
+table{
+  width: 100%;
+  height: 60%;
+  padding: 5px;
+  background-color: rgb(226, 240, 233);
+}
+th{
+  width:14%;
+  background-color: rgb(209, 224, 217);
+}
+.dzisiaj{
+  color: rgb(79, 106, 107);
+}
+tbody {
+  vertical-align: text-top;
+  text-align: left;
+}

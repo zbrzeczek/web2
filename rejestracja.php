@@ -7,6 +7,7 @@ if (isset($_SESSION['zalogowany'])){
     exit();
 }
 
+
 if(isset($_POST['email'])){
 
     $walidacja_ok = true;
@@ -34,11 +35,17 @@ if(isset($_POST['email'])){
     }
 
     $email = $_POST['email'];
+    $_SESSION['email'] = $email;
     $emailafter = filter_var($email, FILTER_SANITIZE_EMAIL);
 
     if (filter_var($emailafter, FILTER_VALIDATE_EMAIL) == false || ($emailafter != $email)){
         $walidacja_ok == false;
         $_SESSION['e_email'] = "Podaj poprawny email!";
+    }
+
+    if($_SESSION['nieOk'] == 1) {
+        $walidacja_ok == false;
+        $_SESSION['e_email'] = "Konto z takim email już istnieje";
     }
 
     $haslo = $_POST['haslo'];
@@ -61,14 +68,60 @@ if(isset($_POST['email'])){
     }
 
     require_once("database.php");
+    mysqli_report(MYSQLI_REPORT_STRICT);
 
-    if($walidacja_ok == true){
-        echo "wszystko ok";
-        exit();
+    try {
+
+        $polaczenie = new mysqli($hostName, $userName, $password, $databaseName);
+
+        if ($polaczenie->connect_errno!=0) {
+            throw new Exeption(mysqli_connect_errno());
+        }
+        else {
+
+            $resultat = $polaczenie->query("SELECT id FROM loginy WHERE email='$email'");
+
+            if (!$resultat) throw new Exeption($polaczenie->error);
+      
+            $ileMaili = $resultat->num_rows;
+
+            if ($ileMaili > 0){
+                $walidacja_ok = false;
+                $_SESSION['e_email'] = "Konto z takim email już istnieje";
+            }
+
+            if ($walidacja_ok==true){			
+				if ($polaczenie->query("INSERT INTO loginy (email, haslo) VALUES ('$email', '$haslo_hash')")){
+
+                    $emailcheck = $email;
+
+                    $lastID = $polaczenie->query("SELECT id FROM loginy WHERE email='$emailcheck'"); 
+
+                    $wierszID = $lastID->fetch_assoc();
+
+                    $IDlog = $wierszID['id'];
+
+                    if ($polaczenie->query("INSERT INTO klienci (imie, nazwisko, logins, diagnoza) VALUES ('$imie', '$nazwisko', '$IDlog', 1)")){
+                        $_SESSION['zalogowany']=true;
+                        header('Location: afterlog.php');
+                    }
+                    else{
+                        throw new Exception($polaczenie->error);
+                    }
+			    }
+				else{
+					throw new Exception($polaczenie->error);
+				}
+					
+			}
+				
+            $polaczenie->close();
+        }
     }
-
-    $dataa = $_POST['dataa'];
-
+    catch(Exeption $er){
+        echo '<div style="color:red;">Błąd serwera</div>';
+        echo '<br>Informacja developerska: '.$er;
+    }
 }
 
 ?>
@@ -76,8 +129,6 @@ if(isset($_POST['email'])){
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Google Fonts -->
-        <!-- Styling for public area -->
         <link rel="stylesheet" href="static/glowny.css">
         <link rel="stylesheet" href="static/login.css">
         <meta charset="UTF-8">

@@ -4,33 +4,39 @@
 
 	require_once('database.php');
 
-	$sql = "SELECT * FROM posty";
+	$polaczenie = @new mysqli($hostName, $userName, $password, $databaseName);
+	
+	if ($polaczenie->connect_errno!=0){
+		throw new Exeption(mysqli_connect_errno());
+	}
+	else{
 
-	if ($result = @$conn->query($sql)){
+		$postySQL = "SELECT * FROM posty ORDER BY dataa DESC ";
 
-		$_SESSION['liczbapostow'] = $result->num_rows;
+		if ($posty = $polaczenie->query($postySQL)){
 
-		if ($_SESSION['liczbapostow']>0){
+			$_SESSION['liczbapostow'] = $result->num_rows;
 
-			$wiersz = $result->fetch_assoc();
+			if ($_SESSION['liczbapostow']>0){
+				$wiersz = $result->fetch_assoc();
 
-			$_SESSION['tytul'] = $wiersz['tytul'];
-			$_SESSION['tresc'] = $wiersz['tresc'];
-			$_SESSION['dataa'] = $wiersz['dataa'];
-			$_SESSION['img'] = $wiersz['img'];
+				$_SESSION['tytul'] = $wiersz['tytul'];
+				$_SESSION['tresc'] = $wiersz['tresc'];
+				$_SESSION['dataa'] = $wiersz['dataa'];
+				$_SESSION['img'] = $wiersz['img'];
 
-			$result->close();
-			header('Location: posty.php');
+				$result->close();
+				header('Location: posty.php');
+			}
+			else {
+
+				$_SESSION['blad_post'] = '<p>Brak postów</p>';
+				header('Location: posty.php');
+
+			}
 		}
 		else {
-
-			$_SESSION['blad_post'] = '<p>Brak postów</p>';
-			header('Location: posty.php');
-
+			echo 'error trying to send query';
 		}
 	}
-	else {
-		echo 'error trying to send query';
-	}
-
 ?>
