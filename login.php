@@ -14,22 +14,18 @@ if (isset($_SESSION['zalogowany'])){
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Google Fonts -->
-        <!-- Styling for public area -->
         <link rel="stylesheet" href="static/glowny.css">
         <link rel="stylesheet" href="static/login.css">
         <meta charset="UTF-8">
-        <title>O mnie</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
 </head>
 <body>
 
-<!-- navbar -->
 <?php include('nav.php');?>
 
-<!-- img -->
 <div class="img2"></div>
 
-<!-- main body -->
 <div class="login" id="lin">
     <h1 id="logmain">Logowanie</h1>
     <form action="login_check.php" method="post">
@@ -45,11 +41,5 @@ if (isset($_SESSION['zalogowany'])){
         <input type="submit" value="Zaloguj się" id="loginbutton">
     </form>
 </div>
-
-<!-- footer -->
-<div id="footer">
-    <p id="link"><a href="https://www.facebook.com/EwaPsalmisterWilk">Footer</p>
-</div>
-
 </body>
 </html>

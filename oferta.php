@@ -3,34 +3,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Google Fonts -->
-        <!-- Styling for public area -->
         <link rel="stylesheet" href="static/glowny.css">
         <meta charset="UTF-8">
-        <title>O mnie</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Oferta</title>
 </head>
 <body>
 
-<!-- navbar -->
 <?php include('nav.php');?>
 
-<!-- img -->
 <div class="img">
-    <h1>Skuteczna walka z bolem</h1>
+    <h1>Skuteczna walka z bólem</h1>
 </div>
 
-<!-- main body -->
 <div class = "glowny">
     <div class="column"  id="text">
         <h2>Oferta</h2>
         <p>oferta</p>
     </div>
 </div>
-
-<!-- footer -->
-<div id="footer">
-    <p id="link"><a href="https://www.facebook.com/EwaPsalmisterWilk">Footer</p>
-</div>
-
 </body>
 </html>

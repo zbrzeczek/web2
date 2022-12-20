@@ -16,19 +16,22 @@ input:focus {
     border: 2px solid #555;
   }
 input {
-   height: 4vh;
-    padding: 12px 15px;
-  }
+  height: 4vh;
+  padding: 12px 15px;
+}
 #wpis {
     width: 20%;
 }
-  #loginbutton {
-      border: none;
-    box-sizing: content-box;
-    text-decoration: none;
-    margin-top: 3vh;
-    height: 20%;
-  }
-  #log {
-    font-size: 2vh;
-  }
+#box{
+  width:10%;
+}
+#loginbutton {
+  border: none;
+  box-sizing: content-box;
+  text-decoration: none;
+  margin-top: 3vh;
+  height: 20%;
+}
+#log {
+  font-size: 2vh;
+}

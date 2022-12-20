@@ -42,8 +42,6 @@ function jump() {
 
 function kalendarz(rok, miesiac){
 
-  //location.href='kalendarz.php?m='+miesiac;
-
   let dzienPierwszy = (new Date(rok, miesiac)).getDay();
 
   var tbl = document.getElementById("tbody");
@@ -75,6 +73,7 @@ function kalendarz(rok, miesiac){
       }
 
       else {
+
         cell = document.createElement("td");
         cellText = document.createTextNode(data);
         if (data === dzisiaj.getDate() && rok === dzisiaj.getFullYear() && miesiac === dzisiaj.getMonth()) {
@@ -90,7 +89,6 @@ function kalendarz(rok, miesiac){
       break;
     }
   }
-  return false;
 }
 
 function iloscDni(iMonth, iYear) {

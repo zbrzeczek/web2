@@ -27,7 +27,7 @@ if(isset($_POST['email'])){
 
     if (!preg_match('@^[a-zA-ZąęćżźńłóśĄĆĘŁŃÓŚŹŻ]+$@',$nazwisko)){
         $walidacja_ok=false;
-        $_SESSION['e_imie']="Nazwisko powinno składac się z liter a-z i polskich znaków";
+        $_SESSION['e_nazwisko']="Nazwisko powinno składac się z liter a-z i polskich znaków";
     }
     if ((strlen($nazwisko) < 3) || (strlen($nazwisko) > 30)) {
         $walidacja_ok = false;
@@ -43,11 +43,6 @@ if(isset($_POST['email'])){
         $_SESSION['e_email'] = "Podaj poprawny email!";
     }
 
-    if($_SESSION['nieOk'] == 1) {
-        $walidacja_ok == false;
-        $_SESSION['e_email'] = "Konto z takim email już istnieje";
-    }
-
     $haslo = $_POST['haslo'];
     $haslo2 = $_POST['haslo2'];
 
@@ -61,11 +56,6 @@ if(isset($_POST['email'])){
     }
 
     $haslo_hash = password_hash($haslo, PASSWORD_DEFAULT);
-
-    if (!$_POST['checkbox']){
-        $walidacja_ok = false;
-        $_SESSION['e_checkbox'] = "Prosze zaakceptować regulamin";
-    }
 
     require_once("database.php");
     mysqli_report(MYSQLI_REPORT_STRICT);
@@ -95,13 +85,17 @@ if(isset($_POST['email'])){
 
                     $emailcheck = $email;
 
-                    $lastID = $polaczenie->query("SELECT id FROM loginy WHERE email='$emailcheck'"); 
+                    $lastID = $polaczenie->query("SELECT * FROM loginy WHERE email='$emailcheck'"); 
+                    
+                    $emailrow = $lastID->fetch_assoc();
 
-                    $wierszID = $lastID->fetch_assoc();
+                    $realID = $emailrow['id'];
+                    $_SESSION['id'] = $emailrow['id'];
 
-                    $IDlog = $wierszID['id'];
-
-                    if ($polaczenie->query("INSERT INTO klienci (imie, nazwisko, logins, diagnoza) VALUES ('$imie', '$nazwisko', '$IDlog', 1)")){
+                    if ($polaczenie->query("INSERT INTO klienci VALUES (NULL, '$imie', '$nazwisko', '$realID', 1)")){
+                        
+                        $_SESSION['imie'] = $imie;
+                        $_SESSION['nazwisko'] = $nazwisko;
                         $_SESSION['zalogowany']=true;
                         header('Location: afterlog.php');
                     }
@@ -132,6 +126,7 @@ if(isset($_POST['email'])){
         <link rel="stylesheet" href="static/glowny.css">
         <link rel="stylesheet" href="static/login.css">
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rejestracja</title>
         <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcaIdQgAAAAAEPa6odo_wJf_ralUkPd58dYRhnn"></script>
         <script>
@@ -144,13 +139,10 @@ if(isset($_POST['email'])){
 </head>
 <body>
 
-<!-- navbar -->
 <?php include('nav.php');?>
 
-<!-- img -->
 <div class="img2"></div>
 
-<!-- main body -->
 <div class="login" id="lin">
     <h1 id="logmain">Rejestracja</h1>
     <form method="post">
@@ -192,25 +184,8 @@ if(isset($_POST['email'])){
 
         <p id="log">Powtórz hasło</p>
         <input type="password" name="haslo2" id="wpis"><br>
-
-        <label>
-        <input type="checkbox" name="checkbox" id="wpis">Akceptuje regulamin<br>
-        </label>
-        <?php
-        if(isset($_SESSION['e_checkbox'])){
-            echo '<div class="error">'.$_SESSION['e_checkbox'].'</div>';
-            unset($_SESSION['e_checkbox']);
-        }
-        ?>
-
         <input type="submit" value="Umów wizytę" id="loginbutton">
     </form>
 </div>
-
-<!-- footer -->
-<div id="footer">
-    <p id="link"><a href="https://www.facebook.com/EwaPsalmisterWilk">Footer</p>
-</div>
-
 </body>
 </html>

@@ -12,20 +12,50 @@ try {
         throw new Exeption(mysqli_connect_errno());
     }
     else {
-
-        $wizytySQL = $polaczenie->query("SELECT * FROM wizyty ORDER BY dataa ASC");
-
-        if (!$wizytySQL) throw new Exeption($polaczenie->error);
-  
-        $wizyty = $wizytySQL->fetch_assoc();
-
-        $numwizyt = $wizytySQL->num_rows();
-        
-        /*for ($i = 0; $i < $numwizyt;$i++){
-            if 
+        if (isset($_POST['miesiac']) and isset($_POST['rok'])){
+            $msc = $_POST['miesiac']+1;
+            $rok = $_POST['rok'];
         }
-        $_SESSION['']*/
+        else {
+            $msc = date("m");
+            $rok = date("Y");
+        }
+
+        $dzisDzien = date("d");
+
+        function iloscDni($miesiac, $rok){
+            if ($miesiac == 1 or $miesiac == 3 or $miesiac == 5 or $miesiac == 7 or $miesiac == 8 or $miesiac == 10 or $miesiac == 12) return 31;
+            elseif ($miesiac == 2 and $rok%4 == 0) return 29;
+            elseif ($miesiac == 2 and $rok%4 != 0) return 28;
+            else return 30;
+        }
+
+        $date = $rok.'-'.$msc.'-01';
+
+        function kalendarz($miesiacKal, $rokKal, $date){
+
+            $dzien = 1;
             
+            $weekDay = date('w', strtotime($date));
+
+            $dniMsc = iloscDni($miesiacKal, $rokKal);
+            while ($dzien <= $dniMsc){
+                echo '<tr>';
+                for ($j = 0; $j < 7; $j++){
+                    echo '<td>';
+                    if  ($dzien <= 1 and $j > $weekDay-2){
+                        echo '<p>'.$dzien.'</p>';
+                        $dzien++;
+                    }
+                    else if ($dzien>1 and $dzien <= iloscDni($miesiacKal, $rokKal)){
+                        echo '<p>'.$dzien.'</p>';
+                        $dzien++;
+                    }
+                }
+                echo '</td>';
+            }   
+            echo '</tr>';
+        }
         $polaczenie->close();
     }
 }
@@ -34,29 +64,24 @@ catch(Exeption $er){
     echo '<br>Informacja developerska: '.$er;
 }
 // wyciagnij wszystkie posty w kolejnosci od najwczesniejszego i zapisz w kolumnie i zapisz zmienne session
-
 ?>
 
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Google Fonts -->
-        <!-- Styling for public area -->
         <link rel="stylesheet" href="static/glowny.css">
         <meta charset="UTF-8">
-        <title>O mnie</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kalendarz</title>
 </head>
 <body>
 
-<!-- navbar -->
 <?php include('nav.php');?>
 
-<!-- img -->
 <div class="img">
-    <h1>Skuteczna walka z bolem</h1>
+    <h1>Skuteczna walka z bólem</h1>
 </div>
 
-<!-- main body -->
 <div class = "glowny">
     <div class="column"  id="text">
         <h1>Kalendarz</h1>
@@ -74,6 +99,7 @@ catch(Exeption $er){
                 </tr>
             </thead>
             <tbody id="tbody">
+                <?php kalendarz($msc, $rok, $date) ?>
             </tbody>
         </table>
         <br/>
@@ -82,10 +108,10 @@ catch(Exeption $er){
             <button class="nastepny" id="nastepny" onclick="next()">Następny miesiąc</button>
         </div>
         <br/>
-        <form class="form-inline">
+        <form class="form-inline" method="post">
 
             <label class="miesiac" for="miesiac">Jump To: </label>
-            <select class="miesiac" name="miesiac" id="miesiac" onchange="jump()">
+            <select class="miesiac" name="miesiac" id="miesiac" onchange="jump(); return false">
                 <option value=0>Styczeń</option>
                 <option value=1>Luty</option>
                 <option value=2>Marzec</option>
@@ -101,7 +127,7 @@ catch(Exeption $er){
             </select>
 
             <label for="rok"></label>
-            <select class="rok" name="rok" id="rok" onchange="jump()">
+            <select class="rok" name="rok" id="rok" onchange="jump(); return false">
                 <option value=2022>2022</option>
                 <option value=2023>2023</option>
                 <option value=2024>2024</option>
@@ -112,14 +138,9 @@ catch(Exeption $er){
                 <option value=2029>2029</option>
                 <option value=2030>2030</option>
             </select>
+            <input type="submit" value="Przejdź" id="loginbutton">
         </form>
     </div>
 </div>
-<script src="static/js.js"></script>
-<!-- footer -->
-<div id="footer">
-    <p id="link"><a href="https://www.facebook.com/EwaPsalmisterWilk">Footer</p>
-</div>
-
 </body>
 </html>
